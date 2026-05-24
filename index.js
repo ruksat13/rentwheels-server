@@ -204,4 +204,10 @@ app.get('/seed', async (req, res) => {
     await db.collection('cars').insertMany(sampleCars)
     res.send({ message: 'Sample cars inserted successfully!', count: sampleCars.length })
 })
+
+app.delete('/bookings/:id', async (req, res) => {
+  const db = await connectDB()
+  const result = await db.collection('bookings').deleteOne({ _id: new ObjectId(req.params.id) })
+  res.send(result)
+})
 module.exports = app
