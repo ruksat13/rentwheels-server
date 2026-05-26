@@ -5,7 +5,11 @@ require('dotenv').config()
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}))
 app.use(express.json())
 
 const uri = process.env.MONGODB_URI
@@ -206,8 +210,8 @@ app.get('/seed', async (req, res) => {
 })
 
 app.delete('/bookings/:id', async (req, res) => {
-  const db = await connectDB()
-  const result = await db.collection('bookings').deleteOne({ _id: new ObjectId(req.params.id) })
-  res.send(result)
+    const db = await connectDB()
+    const result = await db.collection('bookings').deleteOne({ _id: new ObjectId(req.params.id) })
+    res.send(result)
 })
 module.exports = app
