@@ -69,9 +69,10 @@ app.post('/cars', async (req, res) => {
 
 app.put('/cars/:id', async (req, res) => {
     const db = await connectDB()
+    const { _id, ...updateData } = req.body
     const result = await db.collection('cars').updateOne(
         { _id: new ObjectId(req.params.id) },
-        { $set: req.body }
+        { $set: updateData }
     )
     res.send(result)
 })
