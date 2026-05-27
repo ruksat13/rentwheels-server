@@ -482,6 +482,19 @@ app.get('/seed-luxury2', async (req, res) => {
     res.send({ message: 'More luxury cars inserted!', count: moreCars.length })
 })
 
+app.get('/fix-images', async (req, res) => {
+  const db = await connectDB()
+  await db.collection('cars').updateMany(
+    { carName: 'Porsche 911 Turbo S 2024' },
+    { $set: { imageURL: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80' } }
+  )
+  await db.collection('cars').updateMany(
+    { carName: 'McLaren Artura 2024' },
+    { $set: { imageURL: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600&q=80' } }
+  )
+  res.send({ message: 'Images fixed!' })
+})
+
 app.delete('/bookings/:id', async (req, res) => {
     const db = await connectDB()
     const result = await db.collection('bookings').deleteOne({ _id: new ObjectId(req.params.id) })
