@@ -483,16 +483,22 @@ app.get('/seed-luxury2', async (req, res) => {
 })
 
 app.get('/fix-images', async (req, res) => {
-  const db = await connectDB()
-  await db.collection('cars').updateMany(
-    { carName: 'Porsche 911 Turbo S 2024' },
-    { $set: { imageURL: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80' } }
-  )
-  await db.collection('cars').updateMany(
-    { carName: 'McLaren Artura 2024' },
-    { $set: { imageURL: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600&q=80' } }
-  )
-  res.send({ message: 'Images fixed!' })
+    const db = await connectDB()
+    await db.collection('cars').updateMany(
+        { carName: 'Porsche 911 Turbo S 2024' },
+        { $set: { imageURL: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80' } }
+    )
+    await db.collection('cars').updateMany(
+        { carName: 'McLaren Artura 2024' },
+        { $set: { imageURL: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600&q=80' } }
+    )
+    res.send({ message: 'Images fixed!' })
+})
+app.get('/delete-cars', async (req, res) => {
+    const db = await connectDB()
+    await db.collection('cars').deleteMany({ carName: 'McLaren Artura 2024' })
+    await db.collection('cars').deleteMany({ carName: 'Porsche 911 Turbo S 2024' })
+    res.send({ message: 'Cars deleted successfully!' })
 })
 
 app.delete('/bookings/:id', async (req, res) => {
